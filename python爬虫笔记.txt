@@ -1,0 +1,193 @@
+1.安装requests库
+requests库包括七种常用方法：
+（1）：get()方法
+   连接网站的基本方法:r=requests.get(url)//构造一个向服务器请求资源的Request对象，返回一个包含服务器资源的Response
+   完整使用方法:requests.get(url,params=None,**kwargs)
+                      url:获取页面的url连接
+                      params:url中的额外参数，字典或字节流格式，可选
+	      **kwargs:12个控制访问的参数
+Response对象的五大属性：
+     r.status_code检测请求状态码，状态码为200则访问成功
+     r.text url对应的页面内容
+     r.encoding 从页面头部中猜测的响应内容编码方式
+     r.apparent_encoding 从内容中分析出的响应内容编码方式(备用编码方式)
+     r.content 响应内容的二进制形式
+type(r)检测r的类型
+r.headers返回获得页面的头部信息 
+
+2.爬取网页的通用代码框架
+Request库有六种常见异常
+try:
+     r=requests.get(url,timeout=30)
+     r.raise_for_status()#如果状态不是200，引发HTTPError异常
+     r.encoding = r.apparent_encoding
+     return r.text
+except:
+     return "产生异常"
+
+3.Http协议及Requests库方法
+URL格式 http://host[:port][path]
+              host:合法的Internet主机域名或IP地址
+              port:端口号，缺省端口
+              path:请求资源的路径
+4.Robots协议
+
+5.Beautiful Soup库安装
+该库是解析，遍历，维护“标签树”的功能库
+使用该库的方法:
+from bs4 import BeautifulSoup
+soup = BeautifulSoup('<p>data</p>' ,"html.parser")
+BeautifulSoup类的五种基本元素：tag(标签),name(标签的名字),attributes(标签的属性),navigablestring(标签内非属性字符串),comment(标签内字符串的注释部分)
+                                                    标签.<tag>，名称.name，属性.attrs,非属性字符串/注释.string
+
+6.基于bs4的HTML内容遍历方法
+（1）标签树的下行遍历：.contents 子节点的列表，.children 子节点的迭代类型，用于循环遍历儿子结点，.descendants子孙节点的迭代类型，用于循环遍历
+		     遍历儿子节点  for child in soup.body.children:
+（2）标签树的上行遍历: .parent 节点的父亲标签，.parents 节点先辈标签的迭代类型，用于循环遍历先辈节点
+（3）标签树的平行遍历:平行遍历必须发生在同一父亲节点下 
+		     遍历后续节点:for sibling in soup.a.next_siblings:
+		     遍历前续节点:for sibling in soup.a.previous_siblings:
+
+prettify()
+
+7.信息标记的三种形式
+XML(标签),JSON(键值对),YAML(无类型键值对)
+
+8.信息提取的一般方法
+方法一：完整解析信息的标记形式，再提取关键信息，需要标记解析器，例如：bs4库的便签树遍历
+方法二：无视标记形式，直接搜索关键信息
+融合方法较好
+
+9.基于bs4库的HTML内容查找方法
+find_all(name,attrs,recursive,string,**kwargs)
+name：根据标签名称进行检索
+attrs：根据标签属性值进行检索
+recursive:是否对子孙全部检索，默认True
+string：对标签中间的字符串区域进行检索
+有七个扩展方法
+
+10.正则表达式
+概念:正则表达式是用来简洁表达一组字符串的表达式。优点:简洁，”一行胜千言”
+主要应用在字符串匹配中
+正则表达式常用操作符:
+	. 表示任何单个字符
+	[] 字符集，对单个字符给出取值范围
+	[^] 非字符集，对单个字符给出排除范围
+	* 前一个字符0次或无限次扩展
+	+ 前一个字符1次或无限次扩展
+	？前一个字符0次或1次扩展
+	. 表示任何单个字符
+	{m}扩展前一个字符m次
+	{m,n}扩展前一个字符m至n次（含n）
+	^ 匹配字符串开头
+	S 匹配字符串结尾
+	() 分组标记，内部只能使用|操作符
+	\d 数字，等价于[0-9]
+	\w 单词字符，等价于[A-Za-z0-9_]
+
+11.Re库的基本使用
+ re.search(pattern,string,flags=0)：在一个字符串中搜索匹配正则表达式的第一个位置
+	pattern：正则表达式的字符串或原生字符串表示
+	string：待匹配字符串
+	flags：正则表达式使用时的控制标记
+re.match(pattern,string,flags=0)：从一个字符串的开始位置起匹配正则表达式，返回match对象
+	pattern：正则表达式的字符串或原生字符串表示
+	string：待匹配字符串
+	flags：正则表达式使用时的控制标记
+re.findall(pattern,string,flags=0)：搜索字符串，以列表类型返回全部能匹配的子串
+	pattern：正则表达式的字符串或原生字符串表示
+	string：待匹配字符串
+	flags：正则表达式使用时的控制标记
+re.split(pattern,string,maxsplit=0,flags=0)：将一个字符串按照正则表达式匹配结果进行分割，返回列表类型
+	pattern：正则表达式的字符串或原生字符串表示
+	string：待匹配字符串
+	maxsplit：最大分割数，剩余部分作为最后一个元素输出
+	flags：正则表达式使用时的控制标记
+re.finditer(pattern,string,flags=0)：搜索字符串，返回一个匹配结果的迭代类型，每个迭代元素是match对象
+	pattern：正则表达式的字符串或原生字符串表示
+	string：待匹配字符串
+	flags：正则表达式使用时的控制标记
+re.sub(pattern,repl,string,count=0,flags=0)：在一个字符串中替换所有匹配正则表达式的子串，返回替换后的字符串
+	pattern：正则表达式的字符串或原生字符串表示
+	repl：替换匹配字符串的字符串
+	string：待匹配字符串
+	count：匹配的最大替换次数
+	flags：正则表达式使用时的控制标记
+re.compile(pattern,flags=0)：将正则表达式的字符串形式编译成正则表达式对象
+
+12.Re库的match对象
+Match对象的方法：group(0):获得匹配后的字符串
+		start():匹配字符串在原始字符串的开始位置
+		end():匹配字符串在原始字符串的结束位置
+		span():返回(.start(),.end())
+
+13.Re库的贪婪匹配和最小匹配
+Re库默认采用贪婪匹配，即输出匹配最长的子串
+最小匹配操作符
+	*?：前一个字符0次或无限次扩展，最小匹配
+	+?：前一个字符1次或无限次扩展，最小匹配
+	??：前一个字符0次或1次扩展，最小匹配
+	{m,n}?：扩展前一个字符m次至n次(含n)，最小匹配
+
+14.Scrapy爬虫框架
+安装scrapy框架（遇到问题twisted安装）
+scrapy爬虫常用的命令
+	startproject:创建一个新工程
+	genspider:创建一个爬虫
+	settings:获得爬虫配置信息
+	crawl:运行一个爬虫
+	list:列出工程中所有的爬虫
+	shell:启动URL 命令行
+16.使用scrapy爬虫框架
+（1）建立一个scrapy爬虫工程
+其中包含的文件：scrapy.cfg部署Scrapy爬虫的配置文件
+	           __init__.py初始化脚本（用户不需要编写）
+	           items.py Items代码模板（继承类）
+	           middlewares.py Middlewares代码模板（继承类）
+	           pipelines.py Pipelines代码模板（继承类）
+	           settings.py Scrapy爬虫的配置文件
+（2）在工程中产生一个Scrapy爬虫
+（3）配置产生的spider爬虫
+（4）运行爬虫，获取网页
+17.yield关键字
+yield-----生成器
+生成器是一个不断产生值的函数
+包含yield语句的函数是一个生成器
+生成器每次产生一个值，函数被冻结，被唤醒后在产生一个值
+18.Scrapy爬虫的使用步骤
+（1）创建一个工程和Spider模板
+（2）编写Spider
+（3）编写Item Pipeline
+（4）优化配置策略
+Scrapy爬虫的数据类型:
+（1）Request类（向网络上提交请求的内容）
+	Request对象表示一个HTTP请求，由Spider生成，由Downloader执行
+	六个属性或方法
+	.url Request对应的请求URL地址
+	.method 对应的请求方法，‘GET’,‘POST’等
+	.headers 字典类型风格的请求头
+	.body 请求内容主体，字符串类型
+	.meta 用户添加的扩展信息，在Scrapy内部模块间传递信息的使用
+	.copy() 复制该请求
+（2）Resopnse类（从网络中爬取内容的封装类）
+	Response对象表示一个HTTP响应，由Downloader生成，由Spider处理
+	七个属性或方法
+	.url Response对应的URL地址
+	.status HTTP状态码，默认是200
+	.headers Response对应的头部信息
+	.body Response对应的内容信息，字符串类型
+	.flags 一组标记
+	.request 产生Response类型对应的Request对象
+	.copy 复制该响应
+（3）Item类（由Spider产生的信息的封装类）
+	Item对象表示一个从HTML页面中提取的信息内容，由Spider生成，由Item Pipeline处理
+	
+
+
+
+
+
+
+
+
+
