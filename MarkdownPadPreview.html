@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>py爬虫</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<base href='file:\\\E:\\'/>
+</head>
+<body>
+<h1>学习笔记</h1>
+<h2>1：安装requests库</h2>
+<p><strong>requests库包括七种常用方法：</strong><br />
+<strong>get()方法：</strong><br />
+ 连接网站的基本方法:r=requests.get(url)<br />
+//构造一个向服务器请求资源的Request对象，返回一个包含服务器资源的Response
+ 完整使用方法:requests.get(url,params=None,**kwargs)   </p>
+<pre><code>                  url:获取页面的url连接
+                  params:url中的额外参数，字典或字节流格式，可选
+                  **kwargs:12个控制访问的参数
+</code></pre>
+
+<p><strong>Response对象的五大属性：</strong>    </p>
+<pre><code> r.status_code检测请求状态码，状态码为200则访问成功
+ r.text url对应的页面内容
+ r.encoding 从页面头部中猜测的响应内容编码方式
+ r.apparent_encoding 从内容中分析出的响应内容编码方式(备用编码方式)
+ r.content 响应内容的二进制形式
+ type(r)检测r的类型
+</code></pre>
+
+<p>r.headers返回获得页面的头部信息 </p>
+<h2>2：爬取网页的通用代码框架</h2>
+<p><strong>Request库有六种常见异常</strong> </p>
+<pre><code>try:
+  r=requests.get(url,timeout=30)
+  r.raise_for_status()#如果状态不是200，引发HTTPError异常
+  r.encoding = r.apparent_encoding
+  return r.text
+except:
+  return &quot;产生异常&quot;
+</code></pre>
+
+<h2>3：Http协议及Requests库方法</h2>
+<p><strong>URL格式</strong>  http://host[:port][path]    </p>
+<pre><code>          host:合法的Internet主机域名或IP地址
+          port:端口号，缺省端口
+          path:请求资源的路径
+</code></pre>
+
+<h2>4：Robots协议</h2>
+<h2>5：Beautiful Soup库安装</h2>
+<p>该库是解析，遍历，维护“标签树”的功能库<br />
+<strong>使用该库的方法:</strong><br />
+from bs4 import BeautifulSoup<br />
+soup = BeautifulSoup('&lt;\/p&gt;data&lt;\/p&gt;' ,&quot;html.parser&quot;)<br />
+<strong>BeautifulSoup类的五种基本元素：</strong>    </p>
+<pre><code>tag(标签),
+name(标签的名字),
+attributes(标签的属性),
+navigablestring(标签内非属性字符串),
+comment(标签内字符串的注释部分)
+</code></pre>
+
+<p>标签.&lt;\tag&gt;，名称.name，属性.attrs,非属性字符串/注释.string</p>
+<h2>6：基于bs4的HTML内容遍历方法</h2>
+<p><strong>1. 标签树的下行遍历：</strong>    <br />
+.contents 子节点的列表，<br />
+   .children 子节点的迭代类型，用于循环遍历儿子结点<br />
+   .descendants子孙节点的迭代类型，用于循环遍历<br />
+遍历儿子节点  for child in soup.body.children:  </p>
+<p><strong>2. 标签树的上行遍历:</strong><br />
+.parent 节点的父亲标签<br />
+.parents 节点先辈标签的迭代类型，用于循环遍历先辈节点  </p>
+<p><strong>3. 标签树的平行遍历:平行遍历必须发生在同一父亲节点下</strong>  </p>
+<pre><code>         遍历后续节点:for sibling in soup.a.next_siblings:
+         遍历前续节点:for sibling in soup.a.previous_siblings:
+</code></pre>
+
+<h2>7：信息标记的三种形式</h2>
+<p><strong>XML</strong>(标签), <strong>JSON</strong>(键值对), <strong>YAML</strong>(无类型键值对)</p>
+<h2>8：信息提取的一般方法</h2>
+<p><strong>方法一：</strong>完整解析信息的标记形式，再提取关键信息，需要标记解析器，例如：bs4库的便签树遍历<br />
+<strong>方法二：</strong>无视标记形式，直接搜索关键信息
+融合方法较好</p>
+<h2>9：基于bs4库的HTML内容查找方法</h2>
+<p><strong>find_all</strong>(name,attrs,recursive,string,**kwargs)<br />
+<strong>name：</strong>根据标签名称进行检索<br />
+<strong>attrs：</strong>根据标签属性值进行检索<br />
+<strong>recursive:</strong>是否对子孙全部检索，默认True<br />
+<strong>string：</strong>对标签中间的字符串区域进行检索<br />
+有七个扩展方法</p>
+<h2>10：正则表达式</h2>
+<p>概念:正则表达式是用来简洁表达一组字符串的表达式。优点:简洁，”一行胜千言”<br />
+主要应用在字符串匹配中<br />
+正则表达式常用操作符:    </p>
+<pre><code>. 表示任何单个字符
+[] 字符集，对单个字符给出取值范围
+[^] 非字符集，对单个字符给出排除范围
+* 前一个字符0次或无限次扩展
++ 前一个字符1次或无限次扩展
+？前一个字符0次或1次扩展
+. 表示任何单个字符
+{m}扩展前一个字符m次
+{m,n}扩展前一个字符m至n次（含n）
+^ 匹配字符串开头
+S 匹配字符串结尾
+() 分组标记，内部只能使用|操作符
+\d 数字，等价于[0-9]
+\w 单词字符，等价于[A-Za-z0-9_]
+</code></pre>
+
+<h2>11：Re库的基本使用</h2>
+<ol>
+<li>
+<strong><em>re.search(pattern,string,flags=0)：</em></strong>   在一个字符串中搜索匹配正则表达式的第一个位置  
+
+<ul>
+<li><strong>pattern：</strong>正则表达式的字符串或原生字符串表示  
+</li>
+<li><strong>string：</strong>待匹配字符串  
+</li>
+<li><strong>flags：</strong>正则表达式使用时的控制标记</li>
+</ul>
+</li>
+<li>
+<strong><em>re.match(pattern,string,flags=0)：</em></strong>  从一个字符串的开始位置起匹配正则表达式，返回match对象  
+
+<ul>
+<li><strong>pattern：</strong>正则表达式的字符串或原生字符串表示  
+</li>
+<li><strong>string：</strong>待匹配字符串  
+</li>
+<li><strong>flags：</strong>正则表达式使用时的控制标记</li>
+</ul>
+</li>
+<li>
+<strong><em>re.findall(pattern,string,flags=0)：</em></strong>  搜索字符串，以列表类型返回全部能匹配的子串  
+
+<ul>
+<li><strong>pattern：</strong>正则表达式的字符串或原生字符串表示  
+</li>
+<li><strong>string：</strong>待匹配字符串  
+</li>
+<li><strong>flags：</strong>正则表达式使用时的控制标记 </li>
+</ul>
+</li>
+<li>
+<strong><em>re.split(pattern,string,maxsplit=0,flags=0)：</em></strong>  将一个字符串按照正则表达式匹配结果进行分割，返回列表类型  
+
+<ul>
+<li><strong>pattern：</strong>正则表达式的字符串或原生字符串表示  
+</li>
+<li><strong>string：</strong>待匹配字符串  
+</li>
+<li><strong>maxsplit：</strong>最大分割数，剩余部分作为最后一个元素输出  
+</li>
+<li><strong>flags:</strong>正则表达式使用时的控制标记  
+</li>
+</ul>
+</li>
+<li>
+<strong><em>re.finditer(pattern,string,flags=0):</em></strong>  搜索字符串，返回一个匹配结果的迭代类型，每个迭代元素是match对象  
+
+<ul>
+<li><strong>pattern：</strong>正则表达式的字符串或原生字符串表示  
+</li>
+<li><strong>string：</strong>待匹配字符串  
+</li>
+<li><strong>flags：</strong>正则表达式使用时的控制标记</li>
+</ul>
+</li>
+<li>
+<strong><em>re.sub(pattern,repl,string,count=0,flags=0)：</em></strong> 在一个字符串中替换所有匹配正则表达式的子串，返回替换后的字符串  
+
+<ul>
+<li><strong>pattern：</strong>正则表达式的字符串或原生字符串表示  
+</li>
+<li><strong>repl：</strong>替换匹配字符串的字符串  
+</li>
+<li><strong>string：</strong>待匹配字符串  
+</li>
+<li><strong>count：</strong>匹配的最大替换次数  
+</li>
+<li><strong>flags：</strong>正则表达式使用时的控制标记</li>
+</ul>
+</li>
+<li><strong><em>re.compile(pattern,flags=0)：</em></strong> 将正则表达式的字符串形式编译成正则表达式对象</li>
+</ol>
+<h2>12：Re库的match对象</h2>
+<p><strong>Match对象的方法：</strong>   </p>
+<pre><code>    group(0):获得匹配后的字符串   
+    start():匹配字符串在原始字符串的开始位置
+    end():匹配字符串在原始字符串的结束位置
+    span():返回(.start(),.end())
+</code></pre>
+
+<h2>13：Re库的贪婪匹配和最小匹配</h2>
+<p>Re库默认采用<strong>贪婪匹配</strong>，即输出匹配最长的子串<br />
+<strong>最小匹配操作符</strong>    </p>
+<pre><code>*?：前一个字符0次或无限次扩展，最小匹配
++?：前一个字符1次或无限次扩展，最小匹配
+??：前一个字符0次或1次扩展，最小匹配
+{m,n}?：扩展前一个字符m次至n次(含n)，最小匹配
+</code></pre>
+
+<h2>14：安装scrapy框架（遇到问题twisted安装）</h2>
+<p><strong>scrapy爬虫常用的命令</strong>    </p>
+<pre><code>startproject:创建一个新工程
+genspider:创建一个爬虫
+settings:获得爬虫配置信息
+crawl:运行一个爬虫
+list:列出工程中所有的爬虫
+shell:启动URL 命令行
+</code></pre>
+
+<h2>15：使用scrapy爬虫框架</h2>
+<ol>
+<li>
+<strong>建立一个scrapy爬虫工程</strong><br />
+其中包含的文件：   
+
+<ul>
+<li>scrapy.cfg部署Scrapy爬虫的配置文件  
+</li>
+<li><strong>init</strong>.py初始化脚本（用户不需要编写)  
+</li>
+<li>items.py Items代码模板（继承类）  
+</li>
+<li>middlewares.py Middlewares代码模板（继承类）  
+</li>
+<li>pipelines.py Pipelines代码模板（继承类）  
+</li>
+<li>settings.py Scrapy爬虫的配置文件</li>
+</ul>
+</li>
+<li><strong>在工程中产生一个Scrapy爬虫</strong></li>
+<li><strong>配置产生的spider爬虫</strong></li>
+<li><strong>运行爬虫，获取网页</strong></li>
+</ol>
+<h2>16：yield关键字</h2>
+<p>yield-----生成器<br />
+生成器是一个不断产生值的函数<br />
+包含yield语句的函数是一个生成器<br />
+生成器每次产生一个值，函数被冻结，被唤醒后在产生一个值</p>
+<h2>17：Scrapy爬虫的使用步骤</h2>
+<ol>
+<li>创建一个工程和Spider模板</li>
+<li>编写Spider</li>
+<li>编写Item Pipeline</li>
+<li>优化配置策略</li>
+</ol>
+<h2>18：Scrapy爬虫的数据类型:</h2>
+<p><strong>（1）Request类（向网络上提交请求的内容）</strong>    </p>
+<pre><code>Request对象表示一个HTTP请求，由Spider生成，由Downloader执行
+六个属性或方法
+.url Request对应的请求URL地址
+.method 对应的请求方法，‘GET’,‘POST’等
+.headers 字典类型风格的请求头
+.body 请求内容主体，字符串类型
+.meta 用户添加的扩展信息，在Scrapy内部模块间传递信息的使用
+.copy() 复制该请求
+</code></pre>
+
+<p><strong>（2）Resopnse类（从网络中爬取内容的封装类）</strong>    </p>
+<pre><code>Response对象表示一个HTTP响应，由Downloader生成，由Spider处理
+七个属性或方法
+.url Response对应的URL地址
+.status HTTP状态码，默认是200
+.headers Response对应的头部信息
+.body Response对应的内容信息，字符串类型
+.flags 一组标记
+.request 产生Response类型对应的Request对象
+.copy 复制该响应
+</code></pre>
+
+<p><strong>（3）Item类（由Spider产生的信息的封装类）</strong><br />
+ Item对象表示一个从HTML页面中提取的信息内容，由Spider生成，由Item Pipeline处理</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
